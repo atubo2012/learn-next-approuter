@@ -5,6 +5,7 @@ import {
   InvoicesTable,
   LatestInvoiceRaw,
   Revenue,
+  Invoice,
 } from './definitions';
 import { formatCurrency } from './utils';
 import { customers, invoices, revenue } from './placeholder-data';
@@ -115,7 +116,7 @@ export async function fetchInvoicesPages(query: string) {
 
 export async function fetchInvoiceById(id: string) {
   try {
-    const invoice = invoices.find((inv) => inv.id === id);
+    const invoice = (invoices as Invoice[]).find((inv) => inv.id === id);
     if (!invoice) throw new Error('Invoice not found');
     return {
       ...invoice,
