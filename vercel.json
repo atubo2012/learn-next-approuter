@@ -1,0 +1,15 @@
+{
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next",
+      "config": {
+        "installCommand": "pnpm install --unsafe-perm",
+        "buildCommand": "pnpm run build"
+      }
+    }
+  ],
+  "env": {
+    "POSTGRES_URL": "@postgres_url"
+  }
+} 
