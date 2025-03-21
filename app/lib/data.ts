@@ -74,7 +74,7 @@ export async function fetchFilteredInvoices(
 ) {
   try {
     const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-    const filteredInvoices = invoices
+    const filteredInvoices = (invoices as Invoice[])
       .filter((invoice) => {
         const customer = customers.find((c) => c.id === invoice.customer_id);
         if (!customer) return false;
