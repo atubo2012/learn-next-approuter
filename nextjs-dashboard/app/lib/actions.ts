@@ -44,9 +44,7 @@ export async function createInvoice(formData: FormData) {
   } catch (error) {
     // We'll also log the error to the console for now
     console.error(error);
-    return {
-      message: 'Database Error: Failed to Create Invoice.',
-    };
+    throw new Error('Failed to Create Invoice.');
   }
   //Refresh the client-side route cache and redirect the user to the invoices page
   revalidatePath('/dashboard/invoices');
@@ -70,7 +68,7 @@ export async function updateInvoice(id: string, formData: FormData) {
   } catch (error) {
     // We'll also log the error to the console for now
     console.error(error);
-    return { message: 'Database Error: Failed to Update Invoice.' };
+    throw new Error('Failed to Update Invoice.');
   }
   revalidatePath('/dashboard/invoices');
   redirect('/dashboard/invoices');
