@@ -11,6 +11,40 @@ import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
 
 
+/**
+ * Sign in the user with credentials
+ * @param prevState - The previous state of the form
+ * @param formData - The form data
+ * @returns The error message or null
+ */
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData,
+) {
+  try {
+    await signIn('credentials', formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid credentials.';
+        default:
+          return 'Something went wrong.';
+      }
+    }
+    throw error;
+  }
+}
+
+/**
+ * Sign in the user with Google
+ * @returns The error message or null
+ */
+export async function signInWithGoogle() {
+  await signIn('google',{ redirectTo: '/dashboard' });
+}
+
+
 //Define the schema for the form
 const FormSchema = z.object({
   id: z.string(),
@@ -120,26 +154,3 @@ export async function deleteInvoice(id: string) {
   revalidatePath('/dashboard/invoices');
 }
 
-
-export async function authenticate(
-  prevState: string | undefined,
-  formData: FormData,
-) {
-  try {
-    await signIn('credentials', formData);
-  } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case 'CredentialsSignin':
-          return 'Invalid credentials.';
-        default:
-          return 'Something went wrong.';
-      }
-    }
-    throw error;
-  }
-}
-
-export async function signInWithGoogle() {
-  await signIn('google',{ redirectTo: '/dashboard' });
-}
